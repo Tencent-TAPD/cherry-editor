@@ -1,0 +1,140 @@
+/**
+ * Copyright (c) Tiny Technologies, Inc. All rights reserved.
+ * Licensed under the LGPL or a commercial license.
+ * For LGPL see License.txt in the project root for license information.
+ */
+
+.cherry-app-dialog {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 9999;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+
+    .cherry-app-dialog__head-close {
+        line-height: 43px;
+        margin-top: 10px;
+    }
+
+    .cherry-app-dialog__body {
+        position: relative;
+        height: calc(100% - 100px);
+    }
+}
+.cherry-app-dialog--fullscreen {
+    .cherry-app-dialog__content {
+        width: 100%;
+        height: 100%;
+    }
+    .cherry-app-dialog__mask{
+        padding-top: 0;
+    }
+} 
+.cherry-app-dialog__mask {
+    width: 100%;
+    height: 100%;
+    padding-top: 50px;
+    background-color: rgba(0, 0, 0, .1);
+    display: flex;
+    align-items: center;
+}
+.cherry-app-dialog__content {
+    width: 80%;
+    height: 80%;
+    margin: -100px auto 0;
+    background-color: #fff;
+    opacity: 1;
+    border-radius: 3px;
+    border: solid 1px #aab5c1;
+    -moz-box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    -webkit-box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    -o-box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+.cherry-app-dialog__head {
+    padding: 0 18px;
+    height: 43px;
+    line-height: 43px;
+    background-color: transparent;
+    border-bottom: 1px solid #dfe6ee;
+    border-top-right-radius: 3px;
+    border-top-left-radius: 3px;
+    text-align: left;
+
+    .ch-icon:hover {
+        color: #3582fb;
+    }
+}
+.cherry-app-dialog__head-title {
+    font-size: 14px;
+    color: #3f4a56;
+}
+.cherry-app-dialog__head-close,
+.cherry-app-dialog__head-fullscreen {
+    float: right;
+    margin-left: 15px;
+    color: #8091a5;
+    font-size: 14px;
+    cursor: pointer;
+}
+.cherry-app-dialog__body--loading {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: calc(100% - 50px);
+    line-height: 50px;
+    color: #3f4a56;
+    background-color: rgba(255, 255, 255, .5);
+}
+.cherry-app-dialog__body--loading_icon {
+    background-repeat: no-repeat;
+}
+.cherry-app-dialog__foot {
+    height: 55px;
+}
+.cherry-app-dialog__foot-btns {
+    float: right;
+    margin-top: 12px;
+
+    .foot-btn {
+        display: inline-block;
+        min-width: 60px;
+        height: 30px;
+        line-height: 30px;
+        margin-right: 10px;
+        cursor: pointer;
+        text-decoration: none;
+        outline: 0;
+        border-radius: 2px;
+        text-align: center;
+        vertical-align: middle;
+        font-size: 12px;
+    }
+
+    .foot-btn__ensure {
+        color: #fff;
+        border: 1px solid #3582fb;
+        background-color: #3582fb;
+    }
+
+    .foot-btn__ensure:hover {
+        border: 1px solid #5d9bfc;
+        background-color: #5d9bfc
+    }
+
+    .foot-btn__cancel {
+        margin-right: 25px;
+        color: #3582fb;
+        border: 1px solid #d7e6fe;
+        background-color: #fff;
+    }
+
+    .foot-btn__cancel:hover {
+        color: #5d9bfc;
+        border: 1px solid #5d9bfc;
+        background-color: #fff
+    }
+}

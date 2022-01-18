@@ -1,0 +1,51 @@
+/**
+ * Copyright (c) Tiny Technologies, Inc. All rights reserved.
+ * Licensed under the LGPL or a commercial license.
+ * For LGPL see License.txt in the project root for license information.
+ */
+
+.tox {
+	.tox-tbtn:hover, .tox-tbtn--enabled {
+		&[aria-label="Panel Block tips"], &[aria-label="信息"] {
+			outline: 1px solid #eee;
+			background-color: #EBF3FE !important;
+			span {
+				color: #3582FB !important;
+			}
+		}
+		&[aria-label="Panel Block info"], &[aria-label="说明"] {
+			outline: 1px solid #eee;
+			background-color: #F8F8F8 !important;
+			span {
+				color: #8091A5 !important;
+			}
+		}
+		&[aria-label="Panel Block ok"], &[aria-label="成功"] {
+			outline: 1px solid #eee;
+			background-color: #EDF9EF !important;
+			span {
+				color: #56BD5B !important;
+			}
+		}
+		&[aria-label="Panel Block warning"], &[aria-label="警告"] {
+			outline: 1px solid #eee;
+			background-color: #FFEED6 !important;
+			span {
+				color: #FFBF4D !important;
+			}
+		}
+		&[aria-label="Panel Block error"], &[aria-label="错误"] {
+			outline: 1px solid #eee;
+			background-color: #FFEFEF !important;
+			span {
+				color: #F85E5E !important;
+			}
+		}
+		&[aria-label="Panel Block delete"], &[aria-label="删除"] {
+			outline: 1px solid #eee;
+			span {
+				color: #F85E5E !important;
+			}
+		}
+	}
+}

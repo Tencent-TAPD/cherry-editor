@@ -1,0 +1,302 @@
+/**
+ * Copyright (c) Tiny Technologies, Inc. All rights reserved.
+ * Licensed under the LGPL or a commercial license.
+ * For LGPL see License.txt in the project root for license information.
+ */
+
+.tox-tbtn.tox-tbtn .tox-icon {
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.tox-toolbar__primary{
+  .tox-tbtn[aria-label="锚点"] .tox-icon, .tox .tox-tbtn[aria-label="Anchor"] .tox-icon{
+      width: 16px;
+      height: 16px;
+      margin-top: -4px;
+  }
+  .tox-tbtn[aria-label="全屏"], .tox-tbtn[aria-label="Fullscreen"]{
+      position: absolute;
+      right:0;
+      top: 5px;
+  }
+  .tox-tbtn[aria-label="Markdown"]{
+      position: absolute;
+      right: 30px;
+      top: 5px;
+  }
+}
+/* 样式覆盖 */
+.tox{
+  border:none;
+  .tox-pop {
+      .tox-tbtn__select-label {
+          margin-top: -5px;
+      }
+  }
+  .tox-menu{
+      border:none;
+      box-shadow:0 0 10px rgba(63,74,86,.3);
+      z-index: 2000;
+  }
+  .tox-tbtn{
+      height:32px;
+      width:30px;
+      color:#3f4a56;
+      svg {
+          margin-top: -3px;
+      }
+      &:hover{
+          cursor: pointer;
+      }
+      &[aria-label="段落"] {
+          width: 60px;
+      }
+      &[aria-label="行高"],&[aria-label="插入图片"]{
+          .tox-icon{
+              margin-right:5px;
+              margin-top: 1px;
+          }
+      }
+      &[aria-label="字号"]{
+        width: 60px;
+      }
+  }
+  .tox-collection--list {
+      .tox-collection__item--enabled{
+          .tox-collection__item-checkmark{
+              span.editor-color-item-selected{
+                  width: 18px;
+                  height: 18px;
+                  position: relative;
+                  display: inline-block;
+                  i{
+                      width: 9px;
+                      height: 5px;
+                      display: block;
+                      border-right: 2px solid rgba(34,47,62,0.5);
+                      border-top: 2px solid rgba(34,47,62,0.5);
+                      transform: rotate(132deg);
+                      position: absolute;
+                      top: 4px;
+                      left: 6px;
+                  }
+              }
+          }
+      }
+      .tox-collection__item--active{
+          background-color: #ebf3ff;
+
+      }
+      .tox-collection__item{
+          padding:6px 8px;
+      }
+  }
+  .tox-tbtn--bespoke .tox-tbtn__select-label{
+      width:4em;
+      margin: -5px 2px 0 ;
+      &:hover{
+          cursor: pointer;
+      }
+  }
+  .tox-tbtn__select-chevron{
+      fill:#8091a5;
+      svg{
+          display: block !important;
+      }
+  }
+  .tox-editor-container{
+      .tox-editor-header{
+          border-bottom: none;
+          background: white;
+      }
+  }
+  .tox-tbtn:hover{
+      background:#ebf3ff
+   }
+   .tox-tbtn--enabled{
+      background:#d7e6fe;
+  }
+  .tox-split-button{
+      // margin:0;
+      >.tox-tbtn {
+          width: 28px;
+      }
+      >.tox-tbtn.tox-split-button__chevron {
+          width: 18px;
+      }
+  }
+  .tox-split-button__chevron{
+      width:16px;
+  }
+
+  .tox-tbtn--select{
+      width:auto;
+  }
+  .tox-toolbar__primary{
+      border-bottom: 1px solid #dfe6ee;
+      background:none;
+      margin:5px 0 ;
+      .font-editor{
+          font-size: 16px;
+      }
+  }
+  .tox-dialog {
+      .tox-dialog__body{
+          .tox-dialog__body-content{
+              padding: 6px 16px;
+          }
+          .plugin_image--text{
+              font-size: 12px;
+              padding: 10px 0 0;
+              color: #8091a5;
+          }
+          #imageUrl{
+              width: 100%;
+              line-height: 18px;
+              border: 1px solid #b0bac5;
+              padding: 7px;
+          }
+      }
+      .tox-dialog__footer{
+          border-top:initial;
+          .tox-button{
+              border: none;
+              font-size: 12px;
+              font-weight: normal;
+              background-color: #3582fb;
+              padding: 2px 19px;
+              border-radius: 2px;
+          }
+          .tox-button--secondary{
+              background: white;
+              color: #3582fb;
+              border: 1px solid #9ac1fd;
+          }
+          .tox-button:hover:not(:disabled){
+              background-color: #3582fb;
+          }
+          .tox-button:active:not(:disabled){
+              background-color: #3582fb;
+          }
+          .tox-button--secondary:active:not(:disabled){
+              background: white;
+          }
+          .tox-button--secondary:hover:not(:disabled){
+              background: white;
+          }
+      }
+      .tox-label{
+          // padding: 8px 0;
+      }
+      .tox-dialog__title{
+          font-size:14px;
+      }
+      .tox-form__controls-h-stack{
+          height: unset !important;
+          margin: 0 !important;
+      }
+      .tox-color-input span::before {
+          background-image: none;
+          height: 34px;
+          width: 50px;
+          border-color: #ccc;
+          top: -5px;
+          left: -5px;
+      }
+  }
+  .tox-title {
+      display:none;
+  }
+  .tox-toolbar__overflow {
+      .tox-title{
+        display:block;
+        margin-left: 6px;
+        max-width: 80px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font: 400 13.3333px Arial;
+        line-height: 32px;
+        color: #47525d;
+      }
+      .tox-tbtn__select-chevron{
+        position: absolute;
+        right: 5px;
+        svg {
+          transform: rotate(-90deg);
+        }
+      }
+    .tox-toolbar__group{
+      //padding: 0 10px;
+
+      &:not(:last-of-type):after {
+        background: transparent;
+      }
+
+    }
+  }
+
+  .tox-toolbar-overlord{
+      padding-right: 80px;
+  }
+  
+  .tox-tinymce-aux {
+    .tox-toolbar__overflow {
+      background-image: none;
+      flex-direction: column;
+      button.tox-tbtn.tip-hotspot {
+        width: 126px;
+        justify-content: flex-start;
+        padding: 0 10px;
+      }
+      .tox-tbtn--select {
+        padding: 0;
+      }
+      .tox-toolbar__group {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0;
+        border-bottom: 1px solid #dee6ee;
+        div.tip-hotspot {
+          width: 146px;
+          &:hover {
+            box-shadow: none;
+            background: #ebf3ff;
+          }
+          span.tox-split-button__chevron, .tox-tbtn__select-chevron {
+            position: absolute;
+            right: 5px;
+            background: transparent;
+            svg {
+              transform: rotate(-90deg);
+            }
+          }
+          &>span:first-child {
+            width: 14px;
+            margin-left: 10px;
+          }
+        }
+      }
+    }
+  }
+}
+.tox:not([dir=rtl]) .tox-toolbar__group:not(:last-of-type){
+  position: relative;
+  border-right:none;
+  &:after{
+      content:'';
+      position: absolute;
+      height: 21px;
+      width: 1px;
+      background:#dfe6ee;
+      right: 0;
+      top: 7px;
+  }
+}
+
+.tox:not([dir=rtl]) .tox-toolbar__primary .tox-toolbar__group:first-child {
+  position: static;
+  &::after {
+      position: static;
+  }
+}

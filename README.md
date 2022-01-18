@@ -1,2 +1,0 @@
-# cherry-editor
-# cherry-editor

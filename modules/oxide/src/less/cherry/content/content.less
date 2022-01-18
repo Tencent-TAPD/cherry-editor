@@ -1,0 +1,33 @@
+/**
+ * Copyright (c) Tiny Technologies, Inc. All rights reserved.
+ * Licensed under the LGPL or a commercial license.
+ * For LGPL see License.txt in the project root for license information.
+ */
+
+// 编辑器内容样式，必须在此命名空间下
+.cherry-editor-body {
+  // background-color: red !important;
+  .cherry-panel-block {
+    outline: 1px solid #fff;
+    .cherry-panel-block__content {
+      * {
+        margin-top: 0;
+        padding-top: 0;
+      }
+      *:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+    }
+  }
+  .cherry-panel-block[contentEditable="false"][data-mce-selected] {
+    outline: 1.5px solid #3582fb !important;
+  }
+  .cherry-panel-block__highlight {
+    .cherry-panel-block__icon {
+      color: #de350b !important;
+    }
+    background-color: #ffebe6 !important;
+    outline: 1.5px solid #ff5630 !important;
+  }
+}

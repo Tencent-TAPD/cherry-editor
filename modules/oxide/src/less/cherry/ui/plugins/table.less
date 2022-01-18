@@ -1,0 +1,104 @@
+/**
+ * Copyright (c) Tiny Technologies, Inc. All rights reserved.
+ * Licensed under the LGPL or a commercial license.
+ * For LGPL see License.txt in the project root for license information.
+ */
+
+.tox {
+  .cherry-table-dialog {
+    .tox-form__group {
+      &:nth-child(3), &:nth-child(4), &:nth-child(5) {
+          width: calc(33% - 4px);
+      }
+      &:nth-child(3), &:nth-child(4){
+          span {
+              width: 40px;
+              margin: 5px;
+              border: none;
+          }
+          input {
+              visibility: hidden;
+          }
+      }
+      &:nth-child(6) label:first-child {
+          display: none;
+      }
+    }
+  }
+  .cherry-table-cell-dialog {
+    max-width: 307px;
+    height: 200px;
+    .tox-dialog__header {
+        padding-left: 20px;
+        padding-top: 0;
+        height: 42px;
+        line-height: 42px;
+  
+        button {
+            color: #8091a5;
+        }
+  
+        button:hover {
+            background-color: #fff;
+            border-color: #fff;
+            color: #5d9bfc;
+        }
+    }
+    .tox-dialog__content-js {
+      border-top: 1px solid #DDE4EC;
+    }
+    .tox-form__grid {
+      padding-top: 17px;
+      justify-content: flex-start;
+    }
+    .tox-dialog__body-content {
+        padding-left: 34px !important;
+    }
+    .tox-form__group {
+      &:nth-child(1) {
+          width: 80px;
+          input {
+              margin-top: 8px;
+              height: 32px;
+          }
+      }
+      &:nth-child(2) {
+          width: 40px;
+          margin-left: 8px;
+          .tox-color-input {
+              margin-top: 2px;
+          }
+          span {
+              width: 40px;
+              margin: 5px 5px 5px 0;
+              border: none;
+          }
+          input {
+              visibility: hidden;
+          }
+      }
+      &:nth-child(3){
+          width: 40px;
+          margin-left: 20px;
+          .tox-color-input {
+              margin-top: 2px;
+          }
+          span {
+              width: 40px;
+              margin: 5px 5px 5px 0;
+              border: none;
+          }
+          input {
+              visibility: hidden;
+          }
+      }
+      &:nth-child(n+4) {
+        display: none;
+      }
+    }
+    .tox-dialog__footer {
+        padding-right: 20px;
+        padding-bottom: 16px;
+    }
+  }
+}

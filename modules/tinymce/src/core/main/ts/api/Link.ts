@@ -8,7 +8,7 @@
 import Editor from './Editor';
 
 const afterInsertLink = (editor: Editor, parentHtml: Element) => {
-  if (parentHtml.querySelectorAll('a').length > 0) {
+  if (parentHtml.querySelectorAll('a:not([data-link-mode="unLinkMode"])').length > 0) {
     editor.fire('initLink', parentHtml);
   }
 };

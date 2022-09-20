@@ -9,6 +9,10 @@ import {
 } from '../components/content/ContextForm';
 import { ContextToolbar, ContextToolbarSpec, createContextToolbar } from '../components/content/ContextToolbar';
 
+// cherry-customized--start
+import { ContextPopover } from '../components/content/ContextPopover';
+// cherry-customized--end
+
 export {
   AutocompleterSpec,
   Autocompleter,
@@ -37,6 +41,9 @@ export {
   ContextToolbar,
   ContextToolbarSpec,
   createContextToolbar,
+  // cherry-customized--start
+  ContextPopover,
+  // cherry-customized--end
 
   SeparatorItemSpec,
   SeparatorItem,

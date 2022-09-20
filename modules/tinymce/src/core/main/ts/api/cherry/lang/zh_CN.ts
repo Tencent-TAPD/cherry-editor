@@ -36,7 +36,14 @@ tinymce.addI18n('zh_CN', {
   'Text Link': '文字链',
   'Open': '打开',
   'Delete': '删除',
-  'Insert/edit code block': '插入代码块'
+  'Insert/edit code block': '插入代码块',
+  'WorkItem': '对象',
+  'Choose story': '选择需求',
+  'Again insert': '重新插入',
+  'Show field': '展示字段',
+  'Bug': '缺陷',
+  'Task': '任务',
+  'Story': '需求',
 });
 // 下面是默认的
 tinymce.addI18n('zh_CN', {
@@ -290,6 +297,9 @@ tinymce.addI18n('zh_CN', {
   'Background color': '背景色',
   'Custom...': '自定义...',
   'Custom color': '自定义颜色',
+  'History Color':'最近使用',
+  'Upload Local File':'本地上传',
+  'Net Image':'网络图片',
   'No color': '无',
   'Remove color': '删除颜色',
   'Table of Contents': '目录',
@@ -458,4 +468,5 @@ tinymce.addI18n('zh_CN', {
   'Panel Block warning': '警告',
   'Panel Block error': '错误',
   'Panel Block delete': '删除',
+  'Delete workitem block': '删除',
 });

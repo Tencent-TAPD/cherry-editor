@@ -87,13 +87,14 @@ export default (editor) => {
         current = current.offsetParent;
       }
 
-      top1 = parent.offsetTop;
+      top1 = parent.getBoundingClientRect().top;
       current = parent.offsetParent;
       while (current) {
         if (current == bar) {
           top2 = top1;
+          top1 += current.getBoundingClientRect().top;
         }
-        top1 += current.offsetTop + current.clientTop;
+
         current = current.offsetParent;
       }
       offsetTop = top1 - top2;
@@ -175,7 +176,7 @@ export default (editor) => {
   const insertTableEvent = function () {
     editor.editorContainer
       .getElementsByClassName("tox-insert-table-picker")[0]
-      .addEventListener("click", (e) => {
+      .addEventListener("mouseup", (e) => {
         // @ts-ignore
         if (e.target.nodeName !== "DIV") {
           return;
@@ -228,11 +229,19 @@ export default (editor) => {
     button += `<span class="tox-insert-table-picker__label" row="${selectRow}" col="${selectCol}">${selectRow}×${selectCol}</span>`;
     return button;
   };
-  const openGrid = function () {
+  const openGrid = function (api, simulatedEvent) {
+
+    const targetElement = simulatedEvent && simulatedEvent.event ? simulatedEvent.event.target.dom : null;
+    if (targetElement) {
+      const targetRect = targetElement.getBoundingClientRect();
+      const editorRect = editor.editorContainer.getBoundingClientRect();
+      left = targetRect.left - editorRect.left;
+      top = targetRect.top + targetRect.height - editorRect.top + 4;
+    }
     const inner = getGrid(defaultTable, defaultTable, 0, 0);
     gridWidth = defaultTable * 17;
     adjustEdge(); // 表格下拉框超出边界就改变下拉框的位置
-    const grid = `<div role="menu" class="tox-menu tox-collection tox-collection--list" style="position: absolute; left: ${left}px; top: ${top}px; overflow: hidden auto;z-index: 2000;">
+    const grid = `<div role="menu" class="tox-menu tox-collection tox-collection--list" style="position: absolute; left: ${left}px; top: ${top}px; overflow: hidden auto!important;z-index: 2000;">
                  <div class="tox-collection__group">
                      <div class="tox-fancymenuitem tox-menu-nav__js">
                          <div class="tox-insert-table-picker" style="width: ${gridWidth}px">

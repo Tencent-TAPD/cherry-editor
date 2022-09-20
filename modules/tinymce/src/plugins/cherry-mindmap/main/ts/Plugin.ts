@@ -18,6 +18,12 @@ const mindmapIcon = `<svg width="20px" height="20px" version="1.1" id="图层_1"
 
 export default () => {
   PluginManager.add('cherry-mindmap', function plugin(editor) {
+    editor.on('openCustomDialog', () => {
+      editor.getBody().setAttribute('contenteditable', 'false');
+    });
+    editor.on('closeCustomDialog', () => {
+      editor.getBody().setAttribute('contenteditable', 'true');
+    });
     editor.ui.registry.addIcon('ch-mindmap', mindmapIcon);
     editor.ui.registry.addButton('ch-mindmap', {
       icon: 'ch-mindmap',
@@ -25,12 +31,14 @@ export default () => {
       onAction() {
         mindmapDialogHelper.init(editor);
         mindmapDialogHelper.insertEmptyImg();
+        editor.fire('openCustomDialog');
       },
       onSetup() {
         function openMindmapDialog(event) {
           if (event.target.getAttribute('data-control') === 'cherry-mindmap') {
             mindmapDialogHelper.init(editor);
             mindmapDialogHelper.openMindmapDialog(event.target);
+            editor.fire('openCustomDialog');
           }
         }
         editor.on('click', openMindmapDialog);

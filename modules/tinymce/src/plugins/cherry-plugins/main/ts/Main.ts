@@ -20,6 +20,7 @@ import 'tinymce/plugins/cherry-colorpicker/Main';
 import 'tinymce/plugins/cherry-checklist/Main';
 import 'tinymce/plugins/cherry-panel/Main';
 import 'tinymce/plugins/cherry-tencent-docs/Main';
+import 'tinymce/plugins/cherry-choose-workitem/Main';
 import 'tinymce/plugins/cherry-table/Main';
 import 'tinymce/plugins/cherry-code/Main';
 import 'tinymce/plugins/cherry-toc/Main';

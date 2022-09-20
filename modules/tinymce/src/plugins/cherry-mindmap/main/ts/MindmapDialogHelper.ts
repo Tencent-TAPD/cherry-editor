@@ -31,7 +31,7 @@ const CHERRY_MINDMAP_DIALOG = `
 `;
 
 interface CherryMindmapDialogHelperConstruct {
-  target: HTMLElement,
+  target: HTMLElement;
 }
 
 class CherryMindmapDialogHelper implements CherryMindmapDialogHelperConstruct {
@@ -54,7 +54,7 @@ class CherryMindmapDialogHelper implements CherryMindmapDialogHelperConstruct {
       document.querySelector<HTMLElement>('.j-cherry-mindmap-dialog .j-dialog-loading').style.display = 'none';
       switch (event.data.eventName) {
         case 'GET_MINDMAP_DATA:SUCCESS':
-          this.onSure(this.encodeJSON(event.data.value.jsonData), event.data.value.base64Data);
+          this.onSure(this.encodeJSON(event.data.value.jsonData), event.data.value.base64Data, event.data.value.imageInfo);
           break;
         default:
           break;
@@ -67,7 +67,7 @@ class CherryMindmapDialogHelper implements CherryMindmapDialogHelperConstruct {
     this.mindmapUrl = editor.getParam('cherry_mindmap_url', '');
   }
 
-  onSure(jsonData, base64Data) {
+  public onSure(jsonData, base64Data, imageInfo: { width?: number } = {}) {
     const self = this;
     const imageTarget = this.target;
     this.beforeInsertJSON(jsonData, (id, token = '') => {
@@ -80,8 +80,12 @@ class CherryMindmapDialogHelper implements CherryMindmapDialogHelperConstruct {
         imageTarget.setAttribute('data-mindmap-oldsrc', '');
         imageTarget.setAttribute('data-mindmap-token', token);
         imageTarget.setAttribute('data-start-key', '');
+        if (imageInfo.width) {
+          imageTarget.setAttribute('width', `${imageInfo.width}`);
+        }
         document.querySelector<HTMLElement>('.j-cherry-mindmap-dialog').style.display = 'none';
         self.target = null;
+        self.editor.fire('closeCustomDialog');
       }
       function failed() {
         document.querySelector<HTMLElement>('.j-cherry-mindmap-dialog').style.display = 'none';
@@ -91,6 +95,7 @@ class CherryMindmapDialogHelper implements CherryMindmapDialogHelperConstruct {
           mindmapSaveFailed(self.target);
         }
         self.target = null;
+        self.editor.fire('closeCustomDialog');
       }
       if (imagesUploadHandler) {
         // @ts-ignore
@@ -172,6 +177,8 @@ class CherryMindmapDialogHelper implements CherryMindmapDialogHelperConstruct {
   createIframe(cb) {
     if (this.created && document.querySelector('.j-cherry-mindmap-dialog')) {
       cb();
+      // @ts-ignore
+      document.querySelector('#cherry-mindmap-dialog-iframe').focus();
       return ;
     }
     this.created = true;
@@ -186,6 +193,8 @@ class CherryMindmapDialogHelper implements CherryMindmapDialogHelperConstruct {
     this.bindEvent();
     setTimeout(() => {
       cb();
+      // @ts-ignore
+      dialog.querySelector('#cherry-mindmap-dialog-iframe').focus();
     }, 3000);
   }
 
@@ -235,6 +244,7 @@ class CherryMindmapDialogHelper implements CherryMindmapDialogHelperConstruct {
       item.addEventListener('click', (e) => {
         this.editor.fire('showDialogTitle');
         this.setDialogVisible(null, false);
+        this.editor.fire('closeCustomDialog');
       });
     });
     document.querySelector('.j-cherry-mindmap-dialog .j-set-dialog-size').addEventListener('click', (e) => {
@@ -283,7 +293,7 @@ class CherryMindmapDialogHelper implements CherryMindmapDialogHelperConstruct {
     for (let i = 0; i < bytes.length; i++) {
       ia[i] = bytes.charCodeAt(i);
     }
-    const file = new Blob([ab], { type: 'image/png' });
+    const file = new Blob([ ab ], { type: 'image/png' });
     // @ts-ignore
     file.lastModifiedDate = new Date();
     // @ts-ignore

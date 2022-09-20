@@ -102,6 +102,7 @@ class CherryAppDialogHelper implements CherryAppDialogHelperConstruct {
       dialogEl.style.display = 'none';
     }
     self.target = null;
+    self.editor.fire('closeCustomDialog');
   }
 
   public openAppDialog(item) {
@@ -206,7 +207,7 @@ class CherryAppDialogHelper implements CherryAppDialogHelperConstruct {
       style += `width: ${width}px;`;
     }
     if (height) {
-      style += `height: ${width}px;`;
+      style += `height: ${height}px;`;
     }
     dialog.innerHTML = CHERRY_APP_DIALOG.replace('CHERRY_APP_URL', url).replace('CHERRY_APP_STYLE', style).replace('INSERT_APP_NAME', `${t('Insert ')}${t(name)}`).replace('COMFIRM', t('Comfirm')).replace('CANCEL', t('Cancel'));
     document.body.appendChild(dialog);
@@ -251,6 +252,7 @@ class CherryAppDialogHelper implements CherryAppDialogHelperConstruct {
       item.addEventListener('click', (e) => {
         this.editor.fire('showDialogTitle');
         this.setDialogVisible(null, false);
+        this.editor.fire('closeCustomDialog');
       });
     });
     const setSizeBtnEl = this.getAppDialogEl('.j-set-dialog-size');

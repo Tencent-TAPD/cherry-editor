@@ -41,7 +41,10 @@ const insertCodeBlock = (editor: Editor, language: string, code: string, theme: 
 
 const getCurrentCode = (editor: Editor): string => {
   const node = getSelectedCodeBlock(editor);
-  return node.fold(() => '', (n) => n.textContent);
+  return node.fold(() => '', (n) => {
+    n.innerHTML = n.innerHTML.replace(/<br>/g, '\n'); 
+    return n.textContent
+  });
 };
 
 export {

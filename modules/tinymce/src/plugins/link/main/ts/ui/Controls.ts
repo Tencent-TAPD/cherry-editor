@@ -22,6 +22,7 @@ const setupButtons = function (editor: Editor) {
     onSetup: Actions.toggleActiveState(editor)
   });
 
+  // cherry-customized--start
   editor.ui.registry.addButton('openlink', {
     icon: 'ch-open-link',
     tooltip: 'Open link',
@@ -36,23 +37,48 @@ const setupButtons = function (editor: Editor) {
     onSetup: Actions.toggleUnlinkState(editor)
   });
 
-  editor.ui.registry.addButton('cardlink', {
+  editor.ui.registry.addToggleButton('cardlink', {
     tooltip: 'Card Mode',
-    onAction: () => editor.fire('mceCardMode'),
+    onAction: () => {
+      document.querySelector('.tox-pop').remove();
+      editor.fire('mceCardMode');
+    },
     icon: 'card-mode',
-    // disabled: !Utils.inTable(editor),
+    onSetup(api) {
+      const elm = editor.selection.getNode();
+      api.setActive(elm.getAttribute('mode') === 'card');
+      return () => {};
+    }
   });
 
-  editor.ui.registry.addButton('insidelink', {
+  editor.ui.registry.addToggleButton('insidelink', {
     tooltip: 'Inside Mode',
-    onAction: () => editor.fire('mceInsideMode'),
+    onAction: () => {
+      document.querySelector('.tox-pop').remove();
+      editor.fire('mceInsideMode');
+    },
     icon: 'insert-mode',
+    onSetup(api) {
+      const elm = editor.selection.getNode();
+      api.setActive(elm.getAttribute('mode') === 'insert');
+      return () => {};
+    }
   });
 
-  editor.ui.registry.addButton('normallink', {
+  editor.ui.registry.addToggleButton('normallink', {
     tooltip: 'Normal Mode',
-    onAction: () => editor.fire('mceNormalMode'),
+    onAction: () => {
+      // @ts-ignore
+      editor.selection.getNode().click();
+      editor.fire('mceNormalMode');
+      document.querySelector('.tox-pop').remove();
+    },
     icon: 'normal-link',
+    onSetup(api) {
+      const elm = editor.selection.getNode();
+      api.setActive(elm.getAttribute('mode') === 'normal');
+      return () => {};
+    }
   });
 
   editor.ui.registry.addButton('copylink', {
@@ -66,6 +92,7 @@ const setupButtons = function (editor: Editor) {
     icon: 'link-remove',
     onAction: Actions.deleteLink(editor),
   });
+  // cherry-customized--end
 };
 
 const setupMenuItems = function (editor: Editor) {
@@ -104,13 +131,27 @@ const setupContextToolbar = function (editor: Editor) {
   editor.ui.registry.addContextToolbar('link', {
     items: linkToolbar,
     predicate: (elem) => {
-      const isShowEntityLink = Utils.isLink(elem) && Utils.isTapdLink(elem) && elem.getAttribute('is-tapdlink') === 'true';
+      const isShowEntityLink = Utils.isLink(elem) && Utils.isTapdLink(elem, editor) && elem.getAttribute('is-tapdlink') === 'true';
       return isShowEntityLink;
     },
     position: 'node',
     scope: 'node'
   });
 };
+
+// cherry-customized--start
+const setupContextPopover = function (editor: Editor) {
+  editor.ui.registry.addPopover('link', {
+    predicate: (elem) => {
+      const isShowEntityLink = Utils.isLink(elem) && Utils.isTapdLink(elem, editor);
+      return isShowEntityLink;
+    },
+    position: 'node',
+    scope: 'node',
+    matchClass: [ 'show-popover' ],
+  });
+};
+// cherry-customized--end
 
 const setupContextToolbars = function (editor: Editor) {
   const collapseSelectionToEnd = function (editor: Editor) {
@@ -203,5 +244,6 @@ export {
   setupMenuItems,
   setupContextMenu,
   setupContextToolbars,
-  setupContextToolbar
+  setupContextToolbar,
+  setupContextPopover
 };

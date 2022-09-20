@@ -11,6 +11,7 @@ import { ToolbarButtonSpec } from '../components/toolbar/ToolbarButton';
 import { ToolbarMenuButtonSpec } from '../components/toolbar/ToolbarMenuButton';
 import { ToolbarSplitButtonSpec } from '../components/toolbar/ToolbarSplitButton';
 import { ToolbarToggleButtonSpec } from '../components/toolbar/ToolbarToggleButton';
+import { ContextPopover } from '../components/content/ContextPopover';
 
 // This would be part of the tinymce api under editor.ui.* so editor.ui.addButton('bold', ...)
 // TODO: This should maybe not be part of this project but rather something built into tinymce core using these public types
@@ -30,6 +31,10 @@ export interface Registry {
   addIcon: (name: string, svgData: string) => void;
   addAutocompleter: (name: string, spec: AutocompleterSpec) => void;
   addSidebar: (name: string, spec: SidebarSpec) => void;
+  // cherry-customized--start
+  // 添加气泡框api
+  addPopover: (name: string, spec: ContextPopover) => void;
+  // cherry-customized--end
 
   getAll: () => {
     buttons: Record<string, ToolbarButtonSpec | GroupToolbarButtonSpec | ToolbarMenuButtonSpec | ToolbarSplitButtonSpec | ToolbarToggleButtonSpec>;
@@ -39,6 +44,10 @@ export interface Registry {
     contextToolbars: Record<string, ContextToolbarSpec | ContextFormSpec>;
     icons: Record<string, string>;
     sidebars: Record<string, SidebarSpec>;
+    // cherry-customized--start
+    // 已注册的气泡框对象
+    contextPopovers: Record<string, ContextPopover>;
+    // cherry-customized--end
   };
 }
 
@@ -49,6 +58,9 @@ export const create = (): Registry => {
   const icons: Record<string, string> = {};
   const contextMenus: Record<string, ContextMenuApi> = {};
   const contextToolbars: Record<string, ContextToolbarSpec | ContextFormSpec> = {};
+  // cherry-customized--start
+  const contextPopovers: Record<string, ContextPopover> = {};
+  // cherry-customized--end
   const sidebars: Record<string, SidebarSpec> = {};
   const add = (collection, type: string) => (name: string, spec: any): void => collection[name.toLowerCase()] = { ...spec, type };
   const addIcon = (name: string, svgData: string) => icons[name.toLowerCase()] = svgData;
@@ -67,6 +79,9 @@ export const create = (): Registry => {
     addContextToolbar: add(contextToolbars, 'contexttoolbar'),
     addContextForm: add(contextToolbars, 'contextform'),
     addSidebar: add(sidebars, 'sidebar'),
+    // cherry-customized--start
+    addPopover: add(contextPopovers, 'contextPopover'),
+    // cherry-customized--end
     addIcon,
 
     getAll: () => ({
@@ -81,6 +96,7 @@ export const create = (): Registry => {
       contextMenus,
 
       contextToolbars,
+      contextPopovers,
       sidebars
     })
   };

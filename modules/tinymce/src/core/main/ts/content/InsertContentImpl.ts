@@ -340,6 +340,7 @@ export const insertHtmlAtCaret = function (editor: Editor, value: string, detail
     } else {
       dom.setOuterHTML(parentNode, value);
     }
+    LinkTool.afterInsertLink(editor, rootNode);
   }
 
   reduceInlineTextElements(editor, merge);

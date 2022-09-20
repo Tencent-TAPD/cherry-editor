@@ -24,6 +24,12 @@ const factory: CompositeSketchFactory<ToolbarDetail, ToolbarSpec> = (detail, com
     });
   };
 
+  // cherry-customized--start
+  const setPopoverContain = (container: AlloyComponent, elements: Element) => {
+    container.element.dom.appendChild(elements);
+  };
+  // cherry-customized--end
+
   const getGroupContainer = (component: AlloyComponent) => detail.shell ? Optional.some(component) : AlloyParts.getPart(component, detail, 'groups');
 
   // In shell mode, the group overrides need to be added to the main container, and there can be no children
@@ -42,7 +48,10 @@ const factory: CompositeSketchFactory<ToolbarDetail, ToolbarSpec> = (detail, com
       extra.behaviours
     ),
     apis: {
-      setGroups
+      setGroups,
+      // cherry-customized--start
+      setPopoverContain,
+      // cherry-customized--end
     },
     domModification: {
       attributes: {
@@ -60,7 +69,12 @@ const Toolbar: ToolbarSketcher = composite<ToolbarSpec, ToolbarDetail, ToolbarAp
   apis: {
     setGroups: (apis, toolbar, groups) => {
       apis.setGroups(toolbar, groups);
+    },
+    // cherry-customized--start
+    setPopoverContain: (apis, popover, elements) => {
+      apis.setPopoverContain(popover, elements);
     }
+    // cherry-customized--end
   }
 });
 

@@ -5,6 +5,7 @@
  */
 
 import LocalStorage from 'tinymce/core/api/util/LocalStorage';
+import I18n from 'tinymce/core/api/util/I18n';
 
 let left; let top;
 let _editor;
@@ -75,28 +76,45 @@ const arrowRight = '<svg style="height: 12px;width: 12px;color: #8091a5;" versio
     + '\t\tc11.558,11.688,11.558,30.5,0,42.188L343.831,900.296C337.964,906.23,330.232,909.202,322.498,909.202z"/>\n'
     + '</g>\n'
     + '</svg>';
+
+function calcPositionByButton(buttonEl) {
+  const rect = buttonEl.getBoundingClientRect();
+  const left = rect.x;
+  const top = rect.y + rect.height + 3;
+  return { left, top };
+}
+
 function menuClick(editor) {
   editor.editorContainer.getElementsByClassName('tox-editor-header')[0].addEventListener('click', (e) => {
     // @ts-ignore
     const parent = e.target.closest('.tox-split-button');
     if (parent) {
-      left = parent.offsetLeft;
-      let current = parent.offsetParent;
-      while (current !== null) {
-        left += current.offsetLeft;
-        current = current.offsetParent;
-      }
-
-      top = parent.offsetTop;
-      current = parent.offsetParent;
-      while (current !== null) {
-        top += (current.offsetTop + current.clientTop);
-        current = current.offsetParent;
-      }
-      top += (parent.getBoundingClientRect().height + 5);
+      const position = calcPositionByButton(parent);
+      left = position.left;
+      top = position.top;
     }
     removeMenu();
   });
+}
+
+function getMenuPosition(name: string) {
+  const id = name === 'forecolor' ? 'tox-icon-text-color__color' : 'tox-icon-highlight-bg-color__color';
+  const buttonEl = document.querySelector(`#${id}`)?.closest('.tox-split-button');
+  if (buttonEl && !buttonEl.closest('.tox-editor-header')) {
+    const position = calcPositionByButton(buttonEl);
+    return position;
+  }
+  return { left, top };
+}
+
+function checkBoundary(menuEl: HTMLElement) {
+  const menuRect = menuEl.getBoundingClientRect();
+  const bodyRect = document.body.getBoundingClientRect();
+  const SPACE = 8;
+  const maxRight = bodyRect.right - SPACE;
+  if (menuRect.right > maxRight) {
+    menuEl.style.left = `${menuRect.left - (menuRect.right - maxRight)}px`;
+  }
 }
 
 const cell = function (initial) {
@@ -315,10 +333,10 @@ function colorPicker(onChoice, name) {
 
 function clickColor(e, name) {
   let target = e.target;
-  if(target.tagName === 'I') {
+  if (target.tagName === 'I') {
     target = target.parentNode;
   }
-  if(!target.style.background) {
+  if (!target.style.background) {
     return;
   }
   applyColor(_editor, name, target.style.background, (newColor) => {
@@ -355,7 +373,7 @@ function rgbToHex(rgb) {
     hex += (`0${Number(color[i]).toString(16)}`).slice(-2);
   }
   return hex;
-};
+}
 
 const i = '<i style="border-right: 2px solid white;\n'
     + 'border-top: 2px solid white;'
@@ -408,7 +426,7 @@ function menu(editor, colors, name) {
   const localStorage = getLocalStorage(format === 'forecolor' ? 'choose-colors' : 'back-colors');
 
   const useRecently = document.createElement('div');
-  useRecently.innerHTML = '<h3 style="font-size: 12px; color: #8091a5;font-weight: normal;margin: 0 3px 7px">最近使用</h3>';
+  useRecently.innerHTML = `<h3 style="font-size: 12px; color: #8091a5;font-weight: normal;margin: 0 3px 7px">${I18n.translate('History Color')}</h3>`;
   useRecently.setAttribute('style', 'padding: 5px 13px;');
 
   const usedRow = document.createElement('div');
@@ -427,7 +445,7 @@ function menu(editor, colors, name) {
 
   // 调色盘
   const customColor = document.createElement('div');
-  customColor.innerHTML = `<h3 style="font-size: 12px; font-weight: normal;margin: 0;cursor: pointer;">自定义颜色</h3>${arrowRight}`;
+  customColor.innerHTML = `<h3 style="font-size: 12px; font-weight: normal;margin: 0;cursor: pointer;">${I18n.translate('Custom color')}</h3>${arrowRight}`;
   customColor.setAttribute('style', 'padding: 10px 13px; border-top: 1px solid #C5D7EF;display: flex;align-items: center;justify-content: space-between;');
   customColor.addEventListener('click', () => {
     editor.fire('disableDialogTitle');
@@ -441,10 +459,11 @@ function menu(editor, colors, name) {
     }, name);
   });
   menuDropDown.appendChild(customColor);
-
-  menuDropDown.setAttribute('style', `top: ${top}px; left: ${left}px;background: white; z-index: 2000; width: 202px; border: 1px solid #C5D7EF; box-shadow: 0 6px 12px rgba(0,0,0,0.09); padding: 5px 0; position: absolute`);
+  const position = getMenuPosition(name);
+  menuDropDown.setAttribute('style', `top: ${position.top}px; left: ${position.left}px;background: white; z-index: 2000; width: 202px; border: 1px solid #C5D7EF; box-shadow: 0 6px 12px rgba(0,0,0,0.09); padding: 5px 0; position: absolute`);
   menuDropDown.setAttribute('id', 'menu-dropdown');
   document.body.appendChild(menuDropDown);
+  checkBoundary(menuDropDown);
 }
 
 export const getFetch = function (editor, name) {
@@ -471,6 +490,7 @@ export const onItemAction = function (editor, _splitButtonApi, value) {
 export const onSetup = function (editor, splitButtonApi, name) {
   _editor = editor;
   menuClick(_editor);
+  setIconColor(splitButtonApi, name, lastColor.get(name));
   const handler = function (e) {
     setIconColor(splitButtonApi, e.name, lastColor.get(e.name));
   };

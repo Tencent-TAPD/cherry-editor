@@ -10,7 +10,6 @@ import appIcon from './icons/app_icon';
 import textlinkIcon from './icons/app_textlink_icon';
 import cardIcon from './icons/app_card_icon';
 import openIcon from './icons/app_open_icon';
-import editIcon from './icons/app_edit_icon';
 import removeIcon from './icons/app_remove_icon';
 
 const MAX_PLUGINS_NUM = 10;
@@ -26,8 +25,14 @@ export default () => {
     editor.ui.registry.addIcon('ch-app-textlink', textlinkIcon);
     editor.ui.registry.addIcon('ch-app-card', cardIcon);
     editor.ui.registry.addIcon('ch-app-open', openIcon);
-    editor.ui.registry.addIcon('ch-app-edit', editIcon);
     editor.ui.registry.addIcon('ch-app-remove', removeIcon);
+
+    editor.on('openCustomDialog', () => {
+      editor.getBody().setAttribute('contenteditable', 'false');
+    });
+    editor.on('closeCustomDialog', () => {
+      editor.getBody().setAttribute('contenteditable', 'true');
+    });
 
     for (let i = 0; i < MAX_PLUGINS_NUM; i++) {
       editor.ui.registry.addButton(`ch-app${i}`, {
@@ -42,6 +47,7 @@ export default () => {
             getCherryAppConfig((config) => {
               if (config.length > i) {
                 appDialogHelper.insertEmptyImg(config[i]);
+                editor.fire('openCustomDialog');
               }
             });
           }
@@ -109,16 +115,6 @@ export default () => {
       onAction() {
         if (currentNode) {
           window.open(currentNode.getAttribute('data-app-url'));
-        }
-      }
-    });
-
-    editor.ui.registry.addButton('ch-app-edit', {
-      tooltip: 'Edit',
-      icon: 'ch-app-edit',
-      onAction() {
-        if (currentNode) {
-          appDialogHelper.openAppDialog(currentNode);
         }
       }
     });

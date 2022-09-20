@@ -16,14 +16,13 @@ import { AttachState, LinkDialogOutput } from '../ui/DialogTypes';
 const isAnchor = (elm: Node): elm is HTMLAnchorElement => elm && elm.nodeName.toLowerCase() === 'a';
 const isLink = (elm: Node): elm is HTMLAnchorElement => isAnchor(elm) && !!getHref(elm);
 
-const isTapdLink = (elm: Node) => {
+const isTapdLink = (elm: Node, editor: Editor) => {
+  const matchLinkReg = editor.getParam('getTapdLinkReg', () => {});
   const href = getHref(<HTMLAnchorElement>elm);
-  const bugMatch = new RegExp(`${window.location.origin}\\S+\/bugtrace\/bugs\/view\\?bug_id=(\\d+)&?[\\s*\\S*]*`);
-  const bugMatch2 = new RegExp(`${window.location.origin}\\S+\/bugtrace\/bugs\/view\/(\\d+)\\??[\\s*\\S*]*`);
-  const storyMatch = new RegExp(`${window.location.origin}\\S+\/prong\/stories\/view\/(\\d+)\\??[\\s*\\S*]*`);
-  const taskMatch = new RegExp(`${window.location.origin}\\S+\/prong\/tasks\/view\/(\\d+)\\??[\\s*\\S*]*`);
-  const previewMatch = new RegExp(`${window.location.origin}\\S+dialog_preview_id=(\\S+\\d+)&?[\\s*\\S*]*`);
-  return !!(bugMatch.test(href) || bugMatch2.test(href) || storyMatch.test(href) || taskMatch .test(href) || previewMatch.test(href));
+  const matchList = matchLinkReg();
+  return Object.keys(matchList).some((key) => {
+    return matchList[key].test(href);
+  });
 };
 
 const collectNodesInRange = <T extends Node>(rng: Range, predicate: (node) => node is T): T[] => {
@@ -139,6 +138,9 @@ const applyLinkOverrides = (editor: Editor, linkAttrs: Record<string, string>) =
 const updateLink = (editor: Editor, anchorElm: HTMLAnchorElement, text: Optional<string>, linkAttrs: Record<string, string>) => {
   // If we have text, then update the anchor elements text content
   text.each((text) => {
+    if (anchorElm.getAttribute('data-link-mode') === 'unLinkMode') {
+      return;
+    }
     if (anchorElm.getAttribute('is-tapdlink') && anchorElm.getAttribute('mode') !== 'normal') {
       anchorElm.setAttribute('linktext', text);
     } else if (anchorElm.hasOwnProperty('innerText')) {
@@ -150,12 +152,13 @@ const updateLink = (editor: Editor, anchorElm: HTMLAnchorElement, text: Optional
 
   editor.dom.setAttribs(anchorElm, linkAttrs);
 
-  if (!isTapdLink(anchorElm) && anchorElm.getAttribute('is-tapdlink')) {
+  if (anchorElm.getAttribute('data-link-mode') === 'unLinkMode') {
+  } else if (!isTapdLink(anchorElm, editor) && anchorElm.getAttribute('is-tapdlink')) {
     editor.fire('mceNormalMode');
     anchorElm.removeAttribute('is-tapdlink');
     anchorElm.removeAttribute('mode');
     anchorElm.removeAttribute('linktext');
-  } else if (isTapdLink(anchorElm)) {
+  } else if (isTapdLink(anchorElm, editor)) {
     editor.fire('initLink', anchorElm);
   }
 

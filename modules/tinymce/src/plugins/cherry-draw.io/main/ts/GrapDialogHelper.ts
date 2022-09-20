@@ -5,6 +5,9 @@
  */
 
 import Editor from 'tinymce/core/api/Editor';
+import FULL_SCREEN_ICON from './icons/fullscreen';
+import EXIT_FULL_SCREEN_ICON from './icons/exit-fullscreen';
+import CLOSE_ICON from './icons/close';
 
 const TAPD_GRAP_DIALOG_STYLES = `
     img[data-control="tapd-graph"] {
@@ -71,8 +74,7 @@ const TAPD_GRAP_DIALOG_STYLES = `
         cursor: pointer;
     }
     .tapd-grap-dialog .tapd-grap-dialog__head-close{
-        line-height: 43px;
-        margin-top: 10px;
+        line-height: 44px;
     }
     .tapd-grap-dialog__body {
         position: relative;
@@ -140,8 +142,8 @@ const TAPD_GRAP_DIALOG = `
     <div class="tapd-grap-dialog__content">
         <div class="tapd-grap-dialog__head clearfix">
             <span class="tapd-grap-dialog__head-title">插入画图</span>
-            <span class="tapd-grap-dialog__head-close ico-dialog-close j-close-dialog"></span>
-            <span class="tapd-grap-dialog__head-fullscreen font-editor font-editor-fullscreen j-set-dialog-size"></span>
+            <span class="tapd-grap-dialog__head-close j-close-dialog">${CLOSE_ICON}</span>
+            <span class="tapd-grap-dialog__head-fullscreen j-set-dialog-size">${FULL_SCREEN_ICON}</span>
         </div>
         <div class="tapd-grap-dialog__body">
             <div class="tapd-grap-dialog__body--loading j-dialog-loading" style="display: block;">
@@ -213,6 +215,7 @@ class TapdGrapDialogHelper implements TapdGrapDialogHelperConstruct {
         imageTarget.setAttribute('data-start-key', '');
         document.querySelector<HTMLElement>('.j-tapd-grap-dialog').style.display = 'none';
         self.target = null;
+        self.editor.fire('closeCustomDialog');
       }
       function failed() {
         document.querySelector<HTMLElement>('.j-tapd-grap-dialog').style.display = 'none';
@@ -222,6 +225,7 @@ class TapdGrapDialogHelper implements TapdGrapDialogHelperConstruct {
           graphSaveFailed(self.target);
         }
         self.target = null;
+        self.editor.fire('closeCustomDialog');
       }
       if (imagesUploadHandler) {
         // @ts-ignore
@@ -370,22 +374,25 @@ class TapdGrapDialogHelper implements TapdGrapDialogHelperConstruct {
       item.addEventListener('click', (e) => {
         this.editor.fire('showDialogTitle');
         this.setDialogVisible(null, false);
+        this.editor.fire('closeCustomDialog');
       });
     });
     document.querySelector('.j-tapd-grap-dialog .j-set-dialog-size').addEventListener('click', (e) => {
       const dialog = document.querySelector('.j-tapd-grap-dialog');
       const { target } = e;
-      let targetClass = (target as HTMLElement).getAttribute('class');
+      const spanEl = (target as HTMLElement).closest('.j-set-dialog-size');
+      const fullscreenStatus = spanEl.getAttribute('fullscreen');
       let dialogClass = '';
-      if (targetClass.indexOf('font-editor-fullscreen-restore') < 0) {
+      if (!fullscreenStatus) {
         dialogClass = dialog.getAttribute('class').replace(/tapd-grap-dialog--normal/g, 'tapd-grap-dialog--fullscreen');
-        targetClass = targetClass.replace(/font-editor-fullscreen/g, 'font-editor-fullscreen-restore');
+        spanEl.innerHTML = EXIT_FULL_SCREEN_ICON;
+        spanEl.setAttribute('fullscreen', '1');
       } else {
         dialogClass = dialog.getAttribute('class').replace(/tapd-grap-dialog--fullscreen/g, 'tapd-grap-dialog--normal');
-        targetClass = targetClass.replace(/font-editor-fullscreen-restore/g, 'font-editor-fullscreen');
+        spanEl.innerHTML = FULL_SCREEN_ICON;
+        spanEl.setAttribute('fullscreen', '');
       }
       dialog.setAttribute('class', dialogClass);
-      (target as HTMLElement).setAttribute('class', targetClass);
     });
   }
 

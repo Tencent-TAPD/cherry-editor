@@ -96,10 +96,6 @@ const process = function (editor: Editor, html: string, internal: boolean) {
     const ptVal = res.match(/:\s*([\d.]+)pt/i)[1];
     return `:${(Number(ptVal) * 1.33).toFixed(2)}px`;
   });
-  // 外层节点有固定高度时，部分内容展示不出来
-  content = content.replace(/<(div|p)\s[\s\S]*style="[\s\S]*([^-]height\s*:[^;]*)[^"]*"\>/ig, function(res) {
-    return res.replace(/[^-](height\s*:[^;]*);/g, '');
-  });
   // cherry-customized--end
 
   return filterContent(editor, content, internal, isWordHtml);

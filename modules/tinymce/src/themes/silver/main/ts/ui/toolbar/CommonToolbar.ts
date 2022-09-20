@@ -44,6 +44,14 @@ export interface ToolbarGroup {
   items: AlloySpec[];
 }
 
+// cherry-customized--start
+export interface PopoverSpec {
+  uid: string;
+  hoverElements?: Element;
+  onEscape: (comp: AlloyComponent) => Optional<boolean>;
+}
+// cherry-customized--end
+
 const renderToolbarGroupCommon = (toolbarGroup: ToolbarGroup) => {
   const attributes = toolbarGroup.title.fold(() => ({}),
     (title) => ({ attributes: { title }}));
@@ -222,4 +230,20 @@ const renderToolbar = (toolbarSpec: ToolbarSpec) => {
   });
 };
 
-export { renderToolbarGroup, renderToolbar, renderFloatingMoreToolbar, renderSlidingMoreToolbar };
+const renderPopover = (popoverSpec: PopoverSpec) => {
+  return AlloyToolbar.sketch({
+    dom: {
+      tag: 'div',
+      classes: [ 'tox-popover' ]
+    },
+    toolbarBehaviours: Behaviour.derive([
+      AddEventsBehaviour.config('popover-event', [
+        AlloyEvents.runOnAttached((component) => {
+          AlloyToolbar.setPopoverContain(component, popoverSpec.hoverElements);
+        })
+      ])
+    ])
+  });
+};
+
+export { renderToolbarGroup, renderToolbar, renderFloatingMoreToolbar, renderSlidingMoreToolbar, renderPopover };

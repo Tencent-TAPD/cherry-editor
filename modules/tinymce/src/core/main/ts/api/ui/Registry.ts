@@ -244,7 +244,18 @@ const registry = () => {
     addToggleMenuItem: bridge.addToggleMenuItem,
 
     /* note getAll is an internal method and may not be supported in future revisions */
-    getAll: bridge.getAll
+    getAll: bridge.getAll,
+
+    // cherry-customized--start
+    /**
+     * hover元素弹出预览气泡框
+     * @method addPopover
+     * @param {String} name Unique name identifying the new popover.
+     * @param {Popover.ContextPopover} obj The context popover configuration object.
+     * @return {void} void
+     */
+    addPopover: bridge.addPopover,
+    // cherry-customized--end
   };
 };
 

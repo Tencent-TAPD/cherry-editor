@@ -6,6 +6,7 @@
  */
 
 import Editor from 'tinymce/core/api/Editor';
+import I18n from 'tinymce/core/api/util/I18n';
 // import { isFigure, isImage } from '../core/ImageData';
 // import * as Utils from '../core/Utils';
 // import { Dialog } from './Dialog';
@@ -105,13 +106,13 @@ const register = (editor: Editor) => {
     fetch(callback) {
       callback([{
         type: 'togglemenuitem',
-        text: '本地上传',
+        text: I18n.translate('Upload Local File'),
         onAction() {
           doUpload();
         }
       }, {
         type: 'togglemenuitem',
-        text: '网络图片',
+        text: I18n.translate('Net Image'),
         onAction() {
           doInputUrl();
         }

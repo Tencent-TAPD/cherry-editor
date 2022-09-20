@@ -454,6 +454,10 @@ module.exports = function (grunt) {
             dest: 'js/cherry/license.txt'
           },
           {
+            src: '../../cherryRichtextFlag.js',
+            dest: 'js/cherry/cherryRichtextFlag.js'
+          },
+          {
             src: '../../README.md',
             dest: 'js/tinymce/readme.md'
           }

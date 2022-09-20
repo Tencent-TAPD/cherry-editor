@@ -58,7 +58,7 @@ export default function () {
         'cherry-codeblock',
     ],
 
-    toolbar1: 'fontselect fontsizeselect formatselect ch-number-headings | ch-alignment ch-indentation ch-lineheight | bold italic underline strikethrough | ch-text-color ch-back-color removeformat | numlist bullist ch-checklist | ch-table image ch-video ch-panel emoji cherry-codeblock link | ch-tencent-docs ch-drawio ch-splitline blockquote ch-word| ch-code fullscreen',
+    toolbar1: 'fontselect fontsizeselect formatselect ch-number-headings | ch-alignment ch-right-indentation ch-left-indentation ch-lineheight | bold italic underline strikethrough | ch-text-color ch-back-color removeformat | numlist bullist ch-checklist | ch-table image ch-video ch-panel emoji cherry-codeblock link | ch-tencent-docs ch-drawio ch-splitline blockquote ch-word| ch-code fullscreen',
 
     toolbar_mode: 'floating',
     quickbars_insert_toolbar: false,

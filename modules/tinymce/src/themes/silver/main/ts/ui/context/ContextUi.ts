@@ -126,8 +126,27 @@ const renderContextToolbar = (spec: { onEscape: () => Optional<boolean>; sink: A
 
 };
 
+// cherry-customized--start
+// 渲染预览框外面的容器
+const renderContextPopover = (spec : { onEscape: () => Optional<boolean>; sink: AlloyComponent }) => {
+  return InlineView.sketch({
+    dom: {
+      tag: 'div',
+      classes: [ 'tox-pop' ]
+    },
+    onShow: (comp) => {
+      InlineView.getContent(comp).each((c) => {
+        Css.remove(c.element, 'visibility');
+      });
+    },
+    lazySink: () => Result.value(spec.sink)
+  });
+};
+// cherry-customized--start
+
 export {
   renderContextToolbar,
+  renderContextPopover,
   forwardSlideEvent,
   backSlideEvent
 };

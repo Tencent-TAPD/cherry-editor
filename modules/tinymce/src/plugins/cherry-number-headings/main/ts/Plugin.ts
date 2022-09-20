@@ -47,8 +47,11 @@ export default () => {
           doNumberHeadings();
         };
         const contentChangeHandler = Delay.debounce(function () {
-          toggleState = editor.$('span.nh-number').length > 0;
-          editor.fire('NumberHeadingsToggleStateChange');
+          const newToggleState = editor.$('span.nh-number').length > 0;
+          if (newToggleState !== toggleState) {
+            toggleState = newToggleState;
+            editor.fire('NumberHeadingsToggleStateChange');
+          }
         });
         editor.on('NumberHeadingsToggleStateChange', toggleStateChangeHandler);
         editor.on('LoadContent SetContent input', contentChangeHandler);

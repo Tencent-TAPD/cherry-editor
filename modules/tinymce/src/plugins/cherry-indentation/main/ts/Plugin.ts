@@ -9,6 +9,20 @@ import { ToolbarSplitButtonItemTypes } from '../../../../../../bridge/src/main/t
 
 export default () => {
   PluginManager.add('cherry-indentation', function plugin(editor) {
+    editor.ui.registry.addButton('ch-right-indentation', {
+      icon: 'indent',
+      tooltip: 'Right Indentation',
+      onAction() {
+        return editor.execCommand('indent');
+      },
+    });
+    editor.ui.registry.addButton('ch-left-indentation', {
+      icon: 'outdent',
+      tooltip: 'Left Indentation',
+      onAction() {
+        return editor.execCommand('outdent');
+      },
+    });
     editor.ui.registry.addSplitButton('ch-indentation', {
       icon: 'indent',
       tooltip: 'Indentation',

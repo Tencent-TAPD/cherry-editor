@@ -28,6 +28,12 @@ c16.568,0,30-13.432,30-30V531.646C770.107,515.078,756.676,501.646,740.107,501.64
 
 export default () => {
   PluginManager.add('cherry-draw.io', function plugin(editor) {
+    editor.on('openCustomDialog', () => {
+      editor.getBody().setAttribute('contenteditable', 'false');
+    });
+    editor.on('closeCustomDialog', () => {
+      editor.getBody().setAttribute('contenteditable', 'true');
+    });
     editor.ui.registry.addIcon('ch-draw.io', drawioIcon);
     editor.ui.registry.addButton('ch-drawio', {
       icon: 'ch-draw.io',
@@ -35,12 +41,14 @@ export default () => {
       onAction() {
         grapDialogHelper.init(editor);
         grapDialogHelper.insertEmptyImg();
+        editor.fire('openCustomDialog');
       },
       onSetup() {
         function openDrawioDialog(event) {
           if (event.target.getAttribute('data-control') === 'tapd-graph') {
             grapDialogHelper.init(editor);
             grapDialogHelper.openGrapDialog(event.target);
+            editor.fire('openCustomDialog');
           }
         }
         editor.on('click', openDrawioDialog);

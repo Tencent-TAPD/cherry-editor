@@ -11,23 +11,23 @@ const toggleState = (editor: Editor) => (api: Toolbar.ToolbarButtonInstanceApi) 
   const toggleDisabledState = () => {
     api.setDisabled(editor.mode.isReadOnly());
   };
-  
+
   toggleDisabledState();
   editor.on('LoadContent SetContent change', toggleDisabledState);
   editor.on('change keyup', ()=> {
     editor.execCommand('cherryUpdateToc');
-  })
+  });
   return () => editor.on('LoadContent SetContent change', toggleDisabledState);
 };
 
 const isToc = (editor: Editor) => (elm) => {
-  const ret = elm && editor.dom.is(elm, '.'+editor.getParam('toc_class', 'toc')) && editor.getBody().contains(elm);
+  const ret = elm && editor.dom.is(elm, '.' + editor.getParam('toc_class', 'toc')) && editor.getBody().contains(elm);
   return ret && elm.getAttribute('data-mce-selected');
-}
+};
 
 const register = (editor: Editor) => {
   editor.ui.registry.addButton('ch-toc', {
-    icon: 'toc',
+    icon: 'cherry-toc',
     tooltip: 'Table of contents',
     onAction: () => editor.execCommand('cherryInsertToc'),
     onSetup: toggleState(editor)

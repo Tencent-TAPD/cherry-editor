@@ -21,5 +21,8 @@ export default function () {
     Actions.setupGotoLinks(editor);
     Commands.register(editor);
     Keyboard.setup(editor);
+    // cherry-customized--start
+    Controls.setupContextPopover(editor);
+    // cherry-customized--end
   });
 }

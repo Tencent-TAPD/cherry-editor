@@ -48,6 +48,7 @@ export class CherryEditor implements CherryEditorConstructor {
     configs.init_instance_callback = (editor) => {
       this.inited = true;
       this.afterInitCallbacks.forEach((cb) => cb(editor));
+      editor.fire('afterInit');
     };
     if (configs.value) {
       this.afterInit((editor: Editor) => {

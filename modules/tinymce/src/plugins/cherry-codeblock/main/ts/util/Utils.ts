@@ -5,7 +5,7 @@
  */
 
 function isCodeBlock(elm: Element) {
-  return elm && elm.nodeName === 'PRE' && elm.className.indexOf('language-') !== -1;
+  return (elm && elm.nodeName === 'PRE' && elm.className.indexOf('language-') !== -1) || (elm.parentElement && elm.parentElement.nodeName === 'PRE' && elm.parentElement.className.indexOf('language-') !== -1);
 }
 
 function trimArg<T>(predicateFn: (a: T) => boolean) {

@@ -77,9 +77,17 @@ const dialog = {
     dialogNode.innerHTML = this.template;
     document.querySelector('body').appendChild(dialogNode);
     this.bindEvent();
+    this.handleFocus = this.handleFocus.bind(this);
+  },
+  handleFocus() {
+    this.$('.form-item__href').select();
   },
   show(data = {}, configs) {
     this.create();
+    this.$('.form-item__href').addEventListener('focus', this.handleFocus);
+    setTimeout(() => {
+      this.$('.form-item__href').focus();
+    }, 0);
     document.querySelector<HTMLElement>(`.${this.dialogClass}`).style.display = 'block';
     this.applyData(data);
     this.configs = configs;
@@ -91,6 +99,7 @@ const dialog = {
   },
   hide() {
     document.querySelector<HTMLElement>(`.${this.dialogClass}`).style.display = 'none';
+    this.$('.form-item__href').removeEventListener('focus', this.handleFocus);
   },
   bindEvent() {
     this.$('.j-ensure').removeEventListener('click', dialogEvent.sure);

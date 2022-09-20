@@ -14,7 +14,7 @@ const isCodeBlockSelection = (editor: Editor) => {
 
 const register = function (editor: Editor) {
   editor.ui.registry.addToggleButton('cherry-codeblock', {
-    icon: 'code-sample',
+    icon: 'cherry-code-block',
     tooltip: 'Insert/edit code block',
     onAction: () => Dialog.open(editor),
     onSetup: (api) => {
@@ -28,7 +28,7 @@ const register = function (editor: Editor) {
 
   editor.ui.registry.addMenuItem('cherry-codeblock', {
     text: 'codeblock',
-    icon: 'code-sample',
+    icon: 'cherry-code-block',
     onAction: () => Dialog.open(editor)
   });
 };

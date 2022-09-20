@@ -16,6 +16,7 @@ import * as ReadOnly from './ReadOnly';
 import * as Settings from './api/Settings';
 import * as Backstage from './backstage/Backstage';
 import * as ContextToolbar from './ContextToolbar';
+import * as Popover from './Popover';
 import * as Events from './Events';
 import * as Iframe from './modes/Iframe';
 import * as Inline from './modes/Inline';
@@ -404,7 +405,7 @@ const setup = (editor: Editor): RenderInfo => {
     });
 
     // Apply Bridge types
-    const { buttons, menuItems, contextToolbars, sidebars } = editor.ui.registry.getAll();
+    const { buttons, menuItems, contextToolbars, sidebars, contextPopovers } = editor.ui.registry.getAll();
     const toolbarOpt: Optional<ToolbarConfig> = Settings.getMultipleToolbarsSetting(editor);
     const rawUiConfig: RenderUiConfig = {
       menuItems,
@@ -420,6 +421,10 @@ const setup = (editor: Editor): RenderInfo => {
     };
 
     ContextToolbar.register(editor, contextToolbars, sink, { backstage });
+
+    // cherry-customized--start
+    Popover.register(editor, contextPopovers, sink, { backstage });
+    // cherry-customized--end
 
     TableSelectorHandles.setup(editor, sink);
 

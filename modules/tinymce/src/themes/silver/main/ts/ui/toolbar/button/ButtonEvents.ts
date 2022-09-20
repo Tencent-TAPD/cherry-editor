@@ -10,7 +10,7 @@ import { Id } from '@ephox/katamari';
 import { GetApiType, runWithApi } from '../../controls/Controls';
 
 export interface OnMenuItemExecuteType<T> extends GetApiType<T> {
-  readonly onAction: (itemApi: T) => void;
+  readonly onAction: (itemApi: T, simulatedEvent?: any) => void;
 }
 
 export const internalToolbarButtonExecute = Id.generate('toolbar.button.execute');
@@ -26,7 +26,7 @@ const onToolbarButtonExecute = <T>(info: OnMenuItemExecuteType<T>) => AlloyEvent
     AlloyTriggers.emitWith(comp, internalToolbarButtonExecute, {
       buttonApi: itemApi
     });
-    info.onAction(itemApi);
+    info.onAction(itemApi, _simulatedEvent);
   });
 });
 

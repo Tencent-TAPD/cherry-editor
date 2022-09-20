@@ -23,6 +23,10 @@ export interface ToolbarSpec extends CompositeSketchSpec {
 
 export interface ToolbarApis {
   setGroups: (toolbar: AlloyComponent, groups: AlloySpec []) => void;
+  // cherry-customized--start
+  // 设置预览气泡框内容
+  setPopoverContain: (popover: AlloyComponent, elements: Element) => void;
+  // cherry-customized--end
 }
 
 export interface ToolbarSketcher extends CompositeSketch<ToolbarSpec>, ToolbarApis { }

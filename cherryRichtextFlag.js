@@ -3,5 +3,5 @@
  * Licensed under the LGPL or a commercial license.
  * For LGPL see License.txt in the project root for license information.
  */
-
-window.hasCherryRichtextResource = true;
+const hasCherryRichtextResource = true;
+window.hasCherryRichtextResource = hasCherryRichtextResource;
